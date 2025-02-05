@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro e Inicio de Sesión</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            width: 300px;
+            margin: auto;
+            padding: 20px;
+            background: #222;
+            border-radius: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Registro e Inicio de Sesión</h2>
+    <div class="container">
+        <input type="email" id="email" placeholder="Correo Electrónico">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="register()">Registrarse</button>
+        <button onclick="login()">Iniciar Sesión</button>
+    </div>
+
+    <script type="module">
+        // Importa Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0PKVDfQjeR1igToEiNAjde8f9EIpiCYI",
+            authDomain: "agencysecurity-efe7c.firebaseapp.com",
+            projectId: "agencysecurity-efe7c",
+            storageBucket: "agencysecurity-efe7c.firebasestorage.app",
+            messagingSenderId: "797482034690",
+            appId: "1:797482034690:web:d6714ebb8b1ed4dec0a91b",
+            measurementId: "G-JJR5N6TYYT"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        // Función para registrar usuarios
+        window.register = function () {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Usuario registrado con éxito");
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        };
+
+        // Función para iniciar sesión
+        window.login = function () {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Inicio de sesión exitoso");
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        };
+    </script>
+</body>
+</html>
