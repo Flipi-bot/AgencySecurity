@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro e Inicio de Sesión</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+</head>
+<body>
+    <h2>Registro</h2>
+    <input type="email" id="email" placeholder="Correo Electrónico">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="register()">Registrarse</button>
+
+    <h2>Iniciar Sesión</h2>
+    <input type="email" id="loginEmail" placeholder="Correo Electrónico">
+    <input type="password" id="loginPassword" placeholder="Contraseña">
+    <button onclick="login()">Iniciar Sesión</button>
+    
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0PKVDfQjeR1igToEiNAjde8f9EIpiCYI",
+            authDomain: "agencysecurity-efe7c.firebaseapp.com",
+            projectId: "agencysecurity-efe7c",
+            storageBucket: "agencysecurity-efe7c.firebasestorage.app",
+            messagingSenderId: "797482034690",
+            appId: "1:797482034690:web:d6714ebb8b1ed4dec0a91b",
+            measurementId: "G-JJR5N6TYYT"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Registro de usuario
+        function register() {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(userCredential => {
+                    alert("Registro exitoso");
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
+
+        // Inicio de sesión
+        function login() {
+            let email = document.getElementById("loginEmail").value;
+            let password = document.getElementById("loginPassword").value;
+            auth.signInWithEmailAndPassword(email, password)
+                .then(userCredential => {
+                    alert("Inicio de sesión exitoso");
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
+    </script>
+</body>
+</html>
