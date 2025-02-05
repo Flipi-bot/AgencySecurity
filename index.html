@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCESO AGENCY</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+            width: 350px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background-color: #222;
+            color: white;
+        }
+        .button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .link-button {
+            background: none;
+            border: none;
+            color: #00aaff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .link-button:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0PKVDfQjeR1igToEiNAjde8f9EIpiCYI",
+            authDomain: "agencysecurity-efe7c.firebaseapp.com",
+            projectId: "agencysecurity-efe7c",
+            storageBucket: "agencysecurity-efe7c.firebasestorage.app",
+            messagingSenderId: "797482034690",
+            appId: "1:797482034690:web:d6714ebb8b1ed4dec0a91b",
+            measurementId: "G-JJR5N6TYYT"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
+
+        function register() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = '';
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    alert(`Hola ${user.email}:\n\nSe te informa que tu Solicitud de Registro fue enviada Exitosamente!\nNos Contactaremos con usted por Gmail para informarle si fue Aceptado.\nAnte alguna Consulta, Escríbanos: agency.corporation.ac@gmail.com`);
+                })
+                .catch((error) => {
+                    errorDiv.textContent = error.message;
+                });
+        }
+
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = '';
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    window.location.href = "https://sites.google.com/view/comunidadagency-oficial-ac2025/inicio";
+                })
+                .catch((error) => {
+                    errorDiv.textContent = error.message;
+                });
+        }
+
+        function loginWithGoogle() {
+            signInWithPopup(auth, provider)
+                .then(() => {
+                    window.location.href = "https://sites.google.com/view/comunidadagency-oficial-ac2025/inicio";
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+
+        function resetPassword() {
+            const email = document.getElementById('email').value;
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = '';
+
+            if (!email) {
+                errorDiv.textContent = "Por favor, ingrese su correo electrónico.";
+                return;
+            }
+
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    alert("Se ha enviado un correo para restablecer la contraseña.");
+                })
+                .catch((error) => {
+                    errorDiv.textContent = error.message;
+                });
+        }
+
+        window.register = register;
+        window.login = login;
+        window.loginWithGoogle = loginWithGoogle;
+        window.resetPassword = resetPassword;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>ACCESO AGENCY</h2>
+        <input type="email" id="email" placeholder="Correo Electrónico" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <div id="error" class="error"></div>
+        <button class="button" onclick="register()">Registrarse</button>
+        <button class="button" onclick="login()">Iniciar Sesión</button>
+        <button class="button" onclick="loginWithGoogle()">Iniciar con Google</button>
+        <button class="link-button" onclick="resetPassword()">Recuperar Contraseña</button>
+    </div>
+</body>
+</html>
